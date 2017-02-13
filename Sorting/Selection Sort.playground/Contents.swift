@@ -22,8 +22,41 @@
 import Foundation
 
 class SelectionSort {
+    func selectionSort(_ array: [Int]) -> [Int] {
+        guard array.count > 1 else { return array }
+        
+        var a = array
+        
+        // Find the lowest value in the rest of the array
+        for i in 0 ..< a.count - 1 {
+            var lowest = i
+            for j in i + 1 ..< a.count {
+                if a[j] < a[lowest] {
+                    lowest = j
+                }
+            }
+            
+            // Swap the lowest value with the current array index
+            if i != lowest {
+                swap(&a[i], &a[lowest])
+            }
+        }
+        return a
+    }
+}
+
+let list = [10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26]
+let obj = SelectionSort()
+obj.selectionSort(list)
+
+/**
+ Improvement with generic applicability and ascending/descending order selection using a user-supplied function (or closure) to perform the less-than comparison.
+ The new parameter isOrderedBefore: (T, T) -> Bool is a function that takes two T objects and returns true if the first object comes before the second, and false if the second object should come before the first. This is exactly what Swift's built-in sort() function does.
+ */
+class SelectionSort2 {
     func selectionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
         guard array.count > 1 else { return array }
+        
         var a = array
         
         // Find the lowest value in the rest of the array
@@ -44,7 +77,7 @@ class SelectionSort {
     }
 }
 
-let list = [10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26]
-let obj = SelectionSort()
-obj.selectionSort(list, <)
-obj.selectionSort(list, >)
+let list2 = [10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26]
+let obj2 = SelectionSort2()
+obj2.selectionSort(list2, <)
+obj2.selectionSort(list2, >)
