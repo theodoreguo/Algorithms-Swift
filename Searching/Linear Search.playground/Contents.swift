@@ -5,13 +5,10 @@
 import Foundation
 
 class LinearSearch {
-    func linearSearch(_ a: [Int], _ element: Int) -> Int? {
-        var i = 0
-        for num in a {
-            if num == element {
+    func linearSearch<T: Equatable>(_ a: [T], _ key: T) -> Int? {
+        for i in 0..<a.count {
+            if a[i] == key {
                 return i
-            } else {
-                i += 1
             }
         }
         return nil
