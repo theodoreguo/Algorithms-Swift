@@ -19,8 +19,7 @@ class BinarySearch {
      */
     func binarySearch<T: Comparable>(_ a: [T], key: T, range: Range<Int>) -> Int? {
         if range.lowerBound >= range.upperBound {
-            // If we get here, then the search key is not present in the array.
-            return nil            
+            return nil // If we get here, then the search key is not present in the array.
         } else {
             // Calculate where to split the array.
             let midIndex = (range.lowerBound + range.upperBound) / 2
