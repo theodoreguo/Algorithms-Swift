@@ -1,75 +1,13 @@
 /**
- Heap sort is an in-place sorting algorithm with worst case and average complexity of O(n log n).
- A heap is a partially sorted binary tree that is stored inside an array. The heap sort algorithm takes advantage of the structure of the heap to perform a fast sort.
- To sort from lowest to highest, heap sort first converts the unsorted array to a max-heap, so that the first element in the array is the largest.
+ A heap is a binary tree that lives inside an array, so it doesn't use parent/child pointers. The tree is partially sorted according to something called the "heap property" that determines the order of the nodes in the tree.
  
- The basic idea is to turn the array into a binary heap structure, which has the property that it allows efficient retrieval and removal of the maximal element.
- We repeatedly "remove" the maximal element from the heap, thus building the sorted list from back to front.
- Heapsort requires random access, so can only be used on an array-like data structure.
+ There are two kinds of heaps: a max-heap and a min-heap. They are identical, except that the order in which they store the tree nodes is opposite.
+ 
+ In a max-heap, parent nodes must always have a greater value than each of their children. For a min-heap it's the other way around: every parent node has a smaller value than its child nodes. This is called the "heap property" and it is true for every single node in the tree.
  */
 
 import Foundation
 
-class HeapSort {
-    func heapSort<T:Comparable>(_ a: inout [T]) {
-        var count = a.count
-        
-        func shiftDown(_ a: inout [T], start: Int, end: Int) { // end represents the limit of how far down the heap to shift
-            var root = start
-            
-            while root * 2 + 1 <= end { // While the root has at least one child
-                let child = root * 2 + 1 // root * 2 + 1 points to the left child
-                var swap = root
-                
-                if a[swap] < a[child] { // Out of max-heap order
-                    swap = child // Repeat to continue sifting down the child
-                }
-                
-                if child + 1 <= end && a[swap] < a[child + 1] { // If the child has a sibling and the child's value is less than its sibling's
-                    swap = child + 1 // Point to the right child instead
-                }
-                
-                if swap == root {
-                    return
-                } else {
-                    (a[root], a[swap]) = (a[swap], a[root])
-                    root = swap
-                }
-            }
-        }
-        
-        func heapify(_ a: inout [T], count: Int) {
-            var start = count / 2 - 1 // start is assigned the index in a of the last parent node
-            
-            while start >= 0 {
-                shiftDown(&a, start: start, end: count - 1) // Shift down the node at index start to the proper place such that all nodes below the start index are in heap order
-                
-                start -= 1
-            } // After sifting down the root all nodes/elements are in heap order
-        }
-        
-        heapify(&a, count: count) // Place a in max-heap order
-        
-        var end = count - 1
-        
-        while end > 0 {
-            (a[end], a[0]) = (a[0], a[end]) // Swap the root (maximum value) of the heap with the last element of the heap
-            
-            end -= 1 // Decrement the size of the heap so that the previous max value will stay in its proper place
-            
-            shiftDown(&a, start: 0, end: end) // Put the heap back in max-heap order
-        }
-    }
-}
-
-var list = [4, 13, 20, 8, 7, 17, 2, 5, 25]
-let obj = HeapSort()
-obj.heapSort(&list)
-list
-
-/**
- Extension for heap
- */
 public struct Heap<T> {
     /** The array that stores the heap's nodes. */
     var elements = [T]()
@@ -93,6 +31,16 @@ public struct Heap<T> {
         self.isOrderedBefore = sort
         buildHeap(fromArray: array)
     }
+    
+    /*
+     // This version has O(n log n) performance.
+     private mutating func buildHeap(array: [T]) {
+        elements.reserveCapacity(array.count)
+        for value in array {
+            insert(value)
+        }
+     }
+     */
     
     /**
      Convert an array to a max-heap or min-heap in a bottom-up manner.
@@ -145,7 +93,7 @@ public struct Heap<T> {
     }
     
     /**
-     Add a new value to the heap. This reorders the heap so that the max-heap or min-heap property still holds.
+     Add a new value to the heap. This reorders the heap so that the max-heap or min-heap property still holds. 
      Performance: O(log n).
      */
     public mutating func insert(_ value: T) {
@@ -253,22 +201,21 @@ public struct Heap<T> {
     }
 }
 
-extension Heap {
-    public mutating func sort() -> [T] {
-        for i in stride(from: (elements.count - 1), through: 1, by: -1) {
-            swap(&elements[0], &elements[i])
-            shiftDown(0, heapSize: i)
-        }
-        return elements
+// MARK: - Searching
+extension Heap where T: Equatable {
+    /**
+     Search the heap for the given element. Performance: O(n).
+     */
+    public func index(of element: T) -> Int? {
+        return index(of: element, 0)
+    }
+    
+    fileprivate func index(of element: T, _ i: Int) -> Int? {
+        if i >= count { return nil }
+        if isOrderedBefore(element, elements[i]) { return nil }
+        if element == elements[i] { return i }
+        if let j = index(of: element, self.leftChildIndex(ofIndex: i)) { return j }
+        if let j = index(of: element, self.rightChildIndex(ofIndex: i)) { return j }
+        return nil
     }
 }
-
-public func heapSort<T>(_ a: [T], _ sort: @escaping (T, T) -> Bool) -> [T] {
-    let reverseOrder = { i1, i2 in sort(i2, i1) }
-    var h = Heap(array: a, sort: reverseOrder)
-    return h.sort()
-}
-
-var heap = Heap(array: [5, 13, 2, 25, 7, 17, 20, 8, 4], sort: >)
-let array = heap.sort()
-heapSort(array, >)
