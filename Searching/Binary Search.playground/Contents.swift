@@ -38,16 +38,16 @@ class BinarySearch {
      Iteration implementation
      */
     func binarySearch2<T: Comparable>(_ a: [T], key: T) -> Int? {
-        var lowerBound = 0
-        var upperBound = a.count
-        while lowerBound <= upperBound {
-            let midIndex = (lowerBound + upperBound) / 2
-            if key < a[midIndex] {
-                upperBound = midIndex - 1
-            } else if key > a[midIndex] {
-                lowerBound = midIndex + 1
+        var l = 0
+        var r = a.count - 1
+        while l <= r {
+            let m = (l + r) / 2
+            if key < a[m] {
+                r = m - 1
+            } else if key > a[m] {
+                l = m + 1
             } else {
-                return midIndex
+                return m
             }
         }
         return nil
