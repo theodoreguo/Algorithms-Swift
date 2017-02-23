@@ -27,7 +27,7 @@ class InsertionSort {
         for i in 1..<a.count {
             var j = i
             while j > 0 && a[j] < a[j - 1] {
-                swap(&a[j - 1], &a[j])
+                swap(&a[j - 1], &a[j]) // Same performance as (a[j - 1], a[j]) = (a[j], a[j - 1])
                 j -= 1
             }
         }

@@ -4,7 +4,7 @@
  How it works:
  - Instead of comparing elements that are side-by-side and swapping them if they are out of order, the way insertion sort does it, the shell sort algorithm compares elements that are far apart.
  - The distance between elements is known as the gap. If the elements being compared are in the wrong order, they are swapped across the gap. This eliminates many in-between copies that are common with insertion sort.
- - The idea is that by moving the elements over large gaps, the array becomes partially sorted quite quickly. This makes later passes faster because they don't have to swap so many items anymore.
+ - The idea is that by moving the elements over large gaps, the array becomes partially sorted quite quickly. This makes later passes faster because they don't have to swap so many items any more.
  - Once a pass has been completed, the gap is made smaller and a new pass starts. This repeats until the gap has size 1, at which point the algorithm functions just like insertion sort. But since the data is already fairly well sorted by then, the final pass can be very quick.
  
  The reason we use this gap is that we don't have to actually make new arrays. Instead, we interleave them in the original array.
