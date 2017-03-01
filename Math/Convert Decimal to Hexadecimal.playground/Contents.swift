@@ -2,8 +2,6 @@
  Without using standard library function, write a program that covert decimal to hexadecimal. Check if the hexadecimal number is the same in forward order and reverse order (e.g., 0x3C3, 0x4B4 are the same in forward order and reverse order).
  */
 
-import Foundation
-
 class Solution {
     func decToHex(_ number: Int) -> String {
         var num = number
