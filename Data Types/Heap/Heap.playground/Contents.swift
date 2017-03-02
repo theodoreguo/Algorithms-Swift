@@ -6,8 +6,6 @@
  In a max-heap, parent nodes must always have a greater value than each of their children. For a min-heap it's the other way around: every parent node has a smaller value than its child nodes. This is called the "heap property" and it is true for every single node in the tree.
  */
 
-import Foundation
-
 public struct Heap<T> {
     /** The array that stores the heap's nodes. */
     var elements = [T]()
