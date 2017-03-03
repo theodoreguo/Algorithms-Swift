@@ -4,6 +4,18 @@
  There are two kinds of heaps: a max-heap and a min-heap. They are identical, except that the order in which they store the tree nodes is opposite.
  
  In a max-heap, parent nodes must always have a greater value than each of their children. For a min-heap it's the other way around: every parent node has a smaller value than its child nodes. This is called the "heap property" and it is true for every single node in the tree.
+ 
+ Differences between heap and regular trees
+ 
+ A heap isn't intended to be a replacement for a binary search tree. But there are many similarities between the two and also some differences. Here are some of the bigger differences:
+ 
+ Order of the nodes. In a binary search tree (BST), the left child must always be smaller than its parent and the right child must be greater. This is not true for a heap. In max-heap both children must be smaller; in a min-heap they both must be greater.
+ 
+ Memory. Traditional trees take up more memory than just the data they store. You need to allocate additional storage for the node objects and pointers to the left/right child nodes. A heap only uses a plain array for storage and uses no pointers.
+ 
+ Balancing. A binary search tree must be "balanced" so that most operations have O(log n) performance. You can either insert and delete your data in a random order or use something like an AVL tree or red-black tree. But with heaps we don't actually need the entire tree to be sorted. We just want the heap property to be fulfilled, and so balancing isn't an issue. Because of the way the heap is structured, heaps can guarantee O(log n) performance.
+ 
+ Searching. Searching a binary tree is really fast -- that's its whole purpose. In a heap, searching is slow. The purpose of a heap is to always put the largest (or smallest) node at the front, and to allow relatively fast inserts and deletes. Searching isn't a top priority.
  */
 
 public struct Heap<T> {
