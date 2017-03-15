@@ -215,7 +215,7 @@ public class LinkedList<T> {
     }
     
     /**
-     Method for inserting nodesa method that lets you insert a new node at any index in the list.
+     Method for inserting nodes: A method that lets you insert a new node at any index in the list.
      
      Some remarks about this method:
      
